@@ -1,0 +1,6 @@
+
+/* Class = "UILabel"; text = "LocalizedEngineDemo"; ObjectID = "GJd-Yh-RWb"; */
+"GJd-Yh-RWb.text" = "不要多想这是静态页文本无效";
+
+/* Class = "UILabel"; text = "  Copyright © 2017年 Zhao Yiqi. All rights reserved."; ObjectID = "obG-Y5-kRd"; */
+"obG-Y5-kRd.text" = "除了LaunchScreen以外都没事，LaunchScreen图片本地化还是可以的";

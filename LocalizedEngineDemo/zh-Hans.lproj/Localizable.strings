@@ -1,0 +1,14 @@
+/* 
+  Localizable.strings
+  LocalizedEngineDemo
+
+  Created by Zhao Yiqi on 2017/2/13.
+  Copyright © 2017年 Zhao Yiqi. All rights reserved.
+*/
+
+"message title" = "提示标题";
+"message text" = "提示文本";
+"OK" = "确定";
+"title1" = "标题1";
+"title3" = "标题3";
+
