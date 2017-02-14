@@ -23,7 +23,7 @@ Create Podfile:-
 ````
 $ edit Podfile
 platform :ios, '7.0'
-pod 'ServerAPI',  '~> 1.0.0'
+pod 'LocalizedEngine',  '~> 1.0'
 $ pod install
 ````
 Use the Xcode workspace instead of the project from now on.
