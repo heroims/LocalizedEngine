@@ -43,6 +43,20 @@
 
 @end
 
+@interface NSAttributedString (LocalizedEngine)
+
+@end
+@implementation NSAttributedString (LocalizedEngine)
+
+- (instancetype)le_initWithString:(NSString *)str{
+    return [self le_initWithString:LocalizedString(str)];
+}
+- (instancetype)le_initWithString:(NSString *)str attributes:(nullable NSDictionary<NSString *, id> *)attrs{
+    return [self le_initWithString:LocalizedString(str) attributes:attrs];
+}
+
+@end
+
 @interface NSString (LocalizedEngine)
 
 @end
@@ -81,6 +95,16 @@
 
 @end
 
+@interface UINavigationItem (LocalizedEngine)
+
+@end
+@implementation UINavigationItem (LocalizedEngine)
+
+-(void)le_setTitle:(NSString *)title{
+    [self le_setTitle:LocalizedString(title)];
+}
+
+@end
 @interface UIViewController (LocalizedEngine)
 
 @end
@@ -103,16 +127,47 @@
 
 @end
 
+@interface UITextField (LocalizedEngine)
+
+@end
+@implementation UITextField (LocalizedEngine)
+
+-(void)le_setText:(NSString *)text{
+    [self le_setText:LocalizedString(text)];
+}
+
+-(void)le_setPlaceholder:(NSString *)placeholder{
+    [self le_setPlaceholder:LocalizedString(placeholder)];
+}
+
+@end
+
+@interface UITextView (LocalizedEngine)
+
+@end
+@implementation UITextView (LocalizedEngine)
+
+-(void)le_setText:(NSString *)text{
+    [self le_setText:LocalizedString(text)];
+}
+
+@end
+
 @implementation LocalizedEngine
 
 +(void)startEngine{
+    [[UITextField class] les_swizzleMethod:@selector(setText:) withMethod:@selector(le_setText:)];
+    [[UITextField class] les_swizzleMethod:@selector(setPlaceholder:) withMethod:@selector(le_setPlaceholder:)];
+    [[UITextView class] les_swizzleMethod:@selector(setText:) withMethod:@selector(le_setText:)];
     [[UILabel class] les_swizzleMethod:@selector(setText:) withMethod:@selector(le_setText:)];
     [[UITabBarItem class] les_swizzleMethod:@selector(setTitle:) withMethod:@selector(le_setTitle:)];
+    [[UINavigationItem class] les_swizzleMethod:@selector(setTitle:) withMethod:@selector(le_setTitle:)];
     [[UIViewController class] les_swizzleMethod:@selector(setTitle:) withMethod:@selector(le_setTitle:)];
     [[UIButton class] les_swizzleMethod:@selector(setTitle:forState:) withMethod:@selector(le_setTitle:forState:)];
     [[NSString class] les_swizzleMethod:@selector(boundingRectWithSize:options:attributes:context:) withMethod:@selector(le_boundingRectWithSize:options:attributes:context:)];
-    [[NSString class] les_swizzleMethod:@selector(sizeWithAttributes:) withMethod:@selector(sizeWithAttributes:)];
-
+    [[NSString class] les_swizzleMethod:@selector(sizeWithAttributes:) withMethod:@selector(le_sizeWithAttributes:)];
+    [[NSAttributedString class] les_swizzleMethod:@selector(initWithString:) withMethod:@selector(le_initWithString:)];
+    [[NSAttributedString class] les_swizzleMethod:@selector(initWithString:attributes:) withMethod:@selector(le_initWithString:attributes:)];
 
 }
 
