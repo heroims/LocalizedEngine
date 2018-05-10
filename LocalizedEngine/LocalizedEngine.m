@@ -13,10 +13,15 @@
 
 #define LocalizedString(string) NSLocalizedString(string, nil)
 
-@interface NSObject (LocalizedEngineSwizzling)
-
-@end
 @implementation NSObject (LocalizedEngineSwizzling)
+
+- (BOOL)disableAutoLocalized{
+    return [objc_getAssociatedObject(self, @selector(disableAutoLocalized)) boolValue];
+}
+
+-(void)setDisableAutoLocalized:(BOOL)disableAutoLocalized{
+    objc_setAssociatedObject(self, @selector(disableAutoLocalized), @(disableAutoLocalized), OBJC_ASSOCIATION_RETAIN);
+}
 
 + (BOOL)les_swizzleMethod:(SEL)origSel withMethod:(SEL)altSel {
     Method origMethod = class_getInstanceMethod(self, origSel);
@@ -49,10 +54,10 @@
 @implementation NSAttributedString (LocalizedEngine)
 
 - (instancetype)le_initWithString:(NSString *)str{
-    return [self le_initWithString:LocalizedString(str)];
+    return [self le_initWithString:self.disableAutoLocalized?str:LocalizedString(str)];
 }
 - (instancetype)le_initWithString:(NSString *)str attributes:(nullable NSDictionary<NSString *, id> *)attrs{
-    return [self le_initWithString:LocalizedString(str) attributes:attrs];
+    return [self le_initWithString:self.disableAutoLocalized?str:LocalizedString(str) attributes:attrs];
 }
 
 @end
@@ -64,11 +69,11 @@
 @implementation NSString(LocalizedEngine)
 
 -(CGRect)le_boundingRectWithSize:(CGSize)size options:(NSStringDrawingOptions)options attributes:(nullable NSDictionary<NSString *, id> *)attributes context:(nullable NSStringDrawingContext *)context{
-    return [LocalizedString(self) le_boundingRectWithSize:size options:options attributes:attributes context:context];
+    return [self.disableAutoLocalized?self:LocalizedString(self) le_boundingRectWithSize:size options:options attributes:attributes context:context];
 }
 
 - (CGSize)le_sizeWithAttributes:(nullable NSDictionary<NSString *, id> *)attrs{
-    return [LocalizedString(self) le_sizeWithAttributes:attrs];
+    return [self.disableAutoLocalized?self:LocalizedString(self) le_sizeWithAttributes:attrs];
 }
 @end
 
@@ -79,7 +84,7 @@
 @implementation UILabel(LocalizedEngine)
 
 -(void)le_setText:(NSString *)text{
-    [self le_setText:LocalizedString(text)];
+    [self le_setText:self.disableAutoLocalized?text:LocalizedString(text)];
 }
 
 @end
@@ -90,7 +95,7 @@
 @implementation UITabBarItem (LocalizedEngine)
 
 -(void)le_setTitle:(NSString *)title{
-    [self le_setTitle:LocalizedString(title)];
+    [self le_setTitle:self.disableAutoLocalized?title:LocalizedString(title)];
 }
 
 @end
@@ -101,7 +106,7 @@
 @implementation UINavigationItem (LocalizedEngine)
 
 -(void)le_setTitle:(NSString *)title{
-    [self le_setTitle:LocalizedString(title)];
+    [self le_setTitle:self.disableAutoLocalized?title:LocalizedString(title)];
 }
 
 @end
@@ -111,7 +116,7 @@
 @implementation UIViewController (LocalizedEngine)
 
 -(void)le_setTitle:(NSString *)title{
-    [self le_setTitle:LocalizedString(title)];
+    [self le_setTitle:self.disableAutoLocalized?title:LocalizedString(title)];
 }
 
 @end
@@ -122,7 +127,7 @@
 @implementation UIButton (LocalizedEngine)
 
 -(void)le_setTitle:(NSString *)title forState:(UIControlState)state{
-    [self le_setTitle:LocalizedString(title) forState:state];
+    [self le_setTitle:self.disableAutoLocalized?title:LocalizedString(title) forState:state];
 }
 
 @end
@@ -133,11 +138,11 @@
 @implementation UITextField (LocalizedEngine)
 
 -(void)le_setText:(NSString *)text{
-    [self le_setText:LocalizedString(text)];
+    [self le_setText:self.disableAutoLocalized?text:LocalizedString(text)];
 }
 
 -(void)le_setPlaceholder:(NSString *)placeholder{
-    [self le_setPlaceholder:LocalizedString(placeholder)];
+    [self le_setPlaceholder:self.disableAutoLocalized?placeholder:LocalizedString(placeholder)];
 }
 
 @end
@@ -148,7 +153,7 @@
 @implementation UITextView (LocalizedEngine)
 
 -(void)le_setText:(NSString *)text{
-    [self le_setText:LocalizedString(text)];
+    [self le_setText:self.disableAutoLocalized?text:LocalizedString(text)];
 }
 
 @end

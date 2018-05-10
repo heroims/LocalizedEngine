@@ -8,6 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+@interface NSObject (LocalizedEngineSwizzling)
+
+@property(nonatomic,assign)BOOL disableAutoLocalized;
+
+@end
+
 @interface LocalizedEngine : NSObject
 
 +(void)startEngine;
